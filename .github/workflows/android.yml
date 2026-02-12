@@ -5,16 +5,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      
       - name: Gerekli Araclar
         run: |
-          pip3 install --user --upgrade buildozer cython
-          sudo apt-get install -y libsqlite3-dev gawk unzip zlib1g-dev libffi-dev libssl-dev
+          pip3 install --user --upgrade buildozer cython==0.29.33
+          sudo apt-get update
+          sudo apt-get install -y libsqlite3-dev gawk unzip zlib1g-dev libffi-dev libssl-dev lld openjdk-17-jdk
+
       - name: APK Derle
         run: |
           yes | buildozer -v android debug
-      - name: APKyi Kaydet
-        uses: actions/upload-artifact@v2
+
+      - name: APKyi Yukle
+        uses: actions/upload-artifact@v4
         with:
           name: uygulama-paketi
           path: bin/*.apk
