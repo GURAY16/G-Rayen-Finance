@@ -3,15 +3,21 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       
+      - name: Java Kurulumu
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Gerekli Araclar
         run: |
           pip3 install --user --upgrade buildozer cython==0.29.33
           sudo apt-get update
-          sudo apt-get install -y libsqlite3-dev gawk unzip zlib1g-dev libffi-dev libssl-dev lld openjdk-17-jdk
+          sudo apt-get install -y libsqlite3-dev gawk unzip zlib1g-dev libffi-dev libssl-dev lld
 
       - name: APK Derle
         run: |
